@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Master - Vocabulary Learning Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Word Master</h1>
+        <nav>
+            <ul>
+                <li><a href="#flashcards">Flashcards</a></li>
+                <li><a href="#word-list">Word List</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="flashcards" class="active">
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="front">
+                            <h2>Word</h2>
+                            <p id="word">Click to start</p>
+                        </div>
+                        <div class="back">
+                            <h2>Definition</h2>
+                            <p id="definition"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-buttons">
+                    <button id="prev-btn">Previous</button>
+                    <button id="flip-btn">Flip</button>
+                    <button id="next-btn">Next</button>
+                </div>
+                <div class="difficulty-buttons">
+                    <button id="easy-btn" class="difficulty easy">Easy</button>
+                    <button id="medium-btn" class="difficulty medium">Medium</button>
+                    <button id="hard-btn" class="difficulty hard">Hard</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="word-list">
+            <div class="word-list-container">
+                <div class="word-list-header">
+                    <h2>Word List</h2>
+                    <div class="word-list-actions">
+                        <button id="add-word-btn">Add Word</button>
+                        <button id="import-words-btn">Import Words</button>
+                    </div>
+                </div>
+                <div class="word-list-content">
+                    <ul id="words-container">
+                        <!-- Words will be dynamically added here -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="settings">
+            <div class="settings-container">
+                <h2>Settings</h2>
+                <div class="settings-item">
+                    <label for="study-mode">Study Mode:</label>
+                    <select id="study-mode">
+                        <option value="flashcards">Flashcards</option>
+                        <option value="quiz">Quiz</option>
+                    </select>
+                </div>
+                <div class="settings-item">
+                    <label for="difficulty-filter">Difficulty Filter:</label>
+                    <select id="difficulty-filter">
+                        <option value="all">All</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="settings-item">
+                    <label for="sound-enabled">Sound Enabled:</label>
+                    <input type="checkbox" id="sound-enabled" checked>
+                </div>
+                <button id="save-settings-btn">Save Settings</button>
+            </div>
+        </section>
+    </main>
+    
+    <div id="add-word-modal" class="modal">
+        <div class="modal-content">
+            <h3>Add New Word</h3>
+            <form id="add-word-form">
+                <div class="form-group">
+                    <label for="new-word">Word:</label>
+                    <input type="text" id="new-word" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-definition">Definition:</label>
+                    <textarea id="new-definition" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="new-difficulty">Difficulty:</label>
+                    <select id="new-difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" id="cancel-add-word">Cancel</button>
+                    <button type="submit">Add Word</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 Word Master - Vocabulary Learning Tool</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
