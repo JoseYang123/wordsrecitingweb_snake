@@ -81,7 +81,35 @@ class WordMaster {
                 e.preventDefault();
                 const targetId = link.getAttribute('href').substring(1);
                 this.showSection(targetId);
+                if (targetId === 'practice') {
+                    this.startPractice();
+                }
             });
+        });
+        
+        // Book management events
+        document.getElementById('book-selector').addEventListener('change', (e) => {
+            this.selectBook(e.target.value);
+        });
+        
+        document.getElementById('create-book-btn').addEventListener('click', () => {
+            const bookName = prompt('Enter book name:');
+            if (bookName) {
+                this.createBook(bookName);
+            }
+        });
+        
+        document.getElementById('rename-book-btn').addEventListener('click', () => {
+            const newName = prompt('Enter new book name:');
+            if (newName) {
+                this.renameBook(this.currentBookIndex, newName);
+            }
+        });
+        
+        document.getElementById('delete-book-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this book?')) {
+                this.deleteBook(this.currentBookIndex);
+            }
         });
         
         // Flashcard events
@@ -132,6 +160,35 @@ class WordMaster {
         // Import words event
         document.getElementById('import-words-btn').addEventListener('click', () => {
             this.importWords();
+        });
+        
+        // Practice mode events
+        document.getElementById('play-word-btn').addEventListener('click', () => {
+            this.playPronunciation(this.getCurrentWord().word);
+        });
+        
+        document.getElementById('next-to-step-2').addEventListener('click', () => {
+            this.showPracticeStep(2);
+        });
+        
+        document.getElementById('play-translation-btn').addEventListener('click', () => {
+            this.playPronunciation(this.getCurrentWord().translation);
+        });
+        
+        document.getElementById('next-to-step-3').addEventListener('click', () => {
+            this.showPracticeStep(3);
+        });
+        
+        document.getElementById('check-word-btn').addEventListener('click', () => {
+            this.checkWordAnswer();
+        });
+        
+        document.getElementById('play-letters-btn').addEventListener('click', () => {
+            this.playWordLetters(this.getCurrentWord().word);
+        });
+        
+        document.getElementById('next-word-btn').addEventListener('click', () => {
+            this.nextPracticeWord();
         });
     }
     
@@ -417,6 +474,83 @@ class WordMaster {
             // Using the Web Speech API for text-to-speech
             const utterance = new SpeechSynthesisUtterance(word);
             speechSynthesis.speak(utterance);
+        }
+    }
+    
+    // Practice mode methods
+    startPractice() {
+        this.currentWordIndex = 0;
+        this.showPracticeStep(1);
+        this.updatePracticeWord();
+    }
+    
+    getCurrentWord() {
+        const words = this.getCurrentWords();
+        return words[this.currentWordIndex] || { word: '', definition: '', translation: '' };
+    }
+    
+    updatePracticeWord() {
+        const currentWord = this.getCurrentWord();
+        document.getElementById('practice-word').textContent = currentWord.word;
+        document.getElementById('practice-translation').textContent = currentWord.translation;
+        document.getElementById('typing-hint').textContent = `Type the word: ${currentWord.word.charAt(0)}...`;
+        document.getElementById('word-input').value = '';
+        document.getElementById('feedback').textContent = '';
+        document.getElementById('feedback').className = '';
+    }
+    
+    showPracticeStep(stepNumber) {
+        // Hide all steps
+        document.querySelectorAll('.practice-step').forEach(step => {
+            step.style.display = 'none';
+        });
+        
+        // Show the selected step
+        document.getElementById(`step-${stepNumber}`).style.display = 'flex';
+        
+        // Auto-play audio for the current step
+        if (stepNumber === 1) {
+            this.playPronunciation(this.getCurrentWord().word);
+        } else if (stepNumber === 2) {
+            this.playPronunciation(this.getCurrentWord().translation);
+        }
+    }
+    
+    checkWordAnswer() {
+        const userInput = document.getElementById('word-input').value.trim().toLowerCase();
+        const currentWord = this.getCurrentWord().word.toLowerCase();
+        const feedbackElement = document.getElementById('feedback');
+        
+        if (userInput === currentWord) {
+            feedbackElement.textContent = 'Correct! Well done!';
+            feedbackElement.className = 'feedback-correct';
+            // Play a success sound (optional)
+        } else {
+            feedbackElement.textContent = 'Incorrect. Please try again!';
+            feedbackElement.className = 'feedback-incorrect';
+            // Play an error sound (optional)
+        }
+    }
+    
+    playWordLetters(word) {
+        if (this.settings.soundEnabled) {
+            // Play each letter separately
+            const letters = word.split('');
+            letters.forEach((letter, index) => {
+                setTimeout(() => {
+                    const utterance = new SpeechSynthesisUtterance(letter);
+                    speechSynthesis.speak(utterance);
+                }, index * 300);
+            });
+        }
+    }
+    
+    nextPracticeWord() {
+        const words = this.getCurrentWords();
+        if (words.length > 0) {
+            this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
+            this.showPracticeStep(1);
+            this.updatePracticeWord();
         }
     }
 }

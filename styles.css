@@ -39,6 +39,48 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
+.book-management {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+#book-selector {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    min-width: 200px;
+}
+
+#create-book-btn, #rename-book-btn, #delete-book-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#create-book-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+#rename-book-btn {
+    background-color: #FFC107;
+    color: #333;
+}
+
+#delete-book-btn {
+    background-color: #F44336;
+    color: white;
+}
+
 main {
     padding: 2rem;
     max-width: 1200px;
@@ -230,6 +272,12 @@ button:hover {
 .word-info p {
     color: #666;
     font-size: 0.9rem;
+}
+
+.word-info .translation {
+    font-style: italic;
+    color: #2196F3;
+    margin: 0.3rem 0;
 }
 
 .word-actions {
@@ -424,6 +472,124 @@ footer {
     }
     
     .settings-item select {
+    width: 100%;
+    }
+}
+
+/* Practice Section Styles */
+.practice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.practice-steps {
+    width: 100%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.practice-step {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.practice-step h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+#practice-word {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2196F3;
+    text-align: center;
+}
+
+#practice-translation {
+    font-size: 1.5rem;
+    color: #4CAF50;
+    text-align: center;
+}
+
+#typing-hint {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+}
+
+#word-input {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+#feedback {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.feedback-correct {
+    color: #4CAF50;
+}
+
+.feedback-incorrect {
+    color: #F44336;
+}
+
+.practice-step button {
+    margin: 0.5rem 0;
+}
+
+#play-word-btn, #play-translation-btn, #play-letters-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+#next-to-step-2, #next-to-step-3, #next-word-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#check-word-btn {
+    background-color: #FFC107;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .book-management {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #book-selector {
         width: 100%;
+    }
+    
+    #create-book-btn, #rename-book-btn, #delete-book-btn {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .practice-steps {
+        padding: 1rem;
+    }
+    
+    #practice-word {
+        font-size: 1.5rem;
+    }
+    
+    #practice-translation {
+        font-size: 1.2rem;
     }
 }
