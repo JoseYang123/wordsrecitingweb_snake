@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header>
-      <h1>Word Master</h1>
+      <h1>Enjoy Words 单词大师（网页版）</h1>
       <nav>
         <ul>
           <li>

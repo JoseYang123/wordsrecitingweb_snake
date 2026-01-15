@@ -39,6 +39,13 @@ const Practice: React.FC<PracticeProps> = ({
         }
       }, 300);
     }
+    if(currentStep===3)
+    {
+        
+        playWordLetters(currentWord.word);
+    }
+
+ 
   }, [currentStep, currentWord, settings.soundEnabled]);
 
   const playPronunciation = (text: string) => {
@@ -61,6 +68,7 @@ const Practice: React.FC<PracticeProps> = ({
   };
 
   const handleNextStep = () => {
+ 
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
