@@ -13,7 +13,7 @@ class WordMaster {
     }
     
     init() {
-        this.loadBooks();
+        this.loadBooks();//what does this line mean?
         this.loadSettings();
         this.bindEvents();
         this.renderBookList();
