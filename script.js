@@ -254,12 +254,14 @@ class WordMaster {
         const wordsContainer = document.getElementById('words-container');
         wordsContainer.innerHTML = '';
         
-        this.words.forEach(word => {
+        const words = this.getCurrentWords();
+        words.forEach(word => {
             const li = document.createElement('li');
             li.innerHTML = `
                 <div class="word-info">
                     <h3>${word.word}</h3>
                     <p>${word.definition}</p>
+                    <p class="translation">Translation: ${word.translation}</p>
                     <p class="difficulty-tag">Difficulty: ${word.difficulty}</p>
                 </div>
                 <div class="word-actions">
@@ -288,6 +290,67 @@ class WordMaster {
         });
     }
     
+    renderBookList() {
+        const bookSelector = document.getElementById('book-selector');
+        if (bookSelector) {
+            bookSelector.innerHTML = '';
+            this.books.forEach((book, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = book.name;
+                if (index === this.currentBookIndex) {
+                    option.selected = true;
+                }
+                bookSelector.appendChild(option);
+            });
+        }
+    }
+    
+    createBook(name) {
+        const newBook = {
+            id: Date.now(),
+            name: name.trim(),
+            words: []
+        };
+        this.books.push(newBook);
+        this.currentBookIndex = this.books.length - 1;
+        this.saveBooks();
+        this.renderBookList();
+        this.renderWordList();
+        this.updateFlashcard();
+    }
+    
+    selectBook(index) {
+        this.currentBookIndex = parseInt(index);
+        this.currentWordIndex = 0;
+        this.renderWordList();
+        this.updateFlashcard();
+    }
+    
+    renameBook(index, newName) {
+        if (this.books[index]) {
+            this.books[index].name = newName.trim();
+            this.saveBooks();
+            this.renderBookList();
+        }
+    }
+    
+    deleteBook(index) {
+        if (this.books.length > 1) {
+            this.books.splice(index, 1);
+            if (this.currentBookIndex >= this.books.length) {
+                this.currentBookIndex = this.books.length - 1;
+            }
+            this.currentWordIndex = 0;
+            this.saveBooks();
+            this.renderBookList();
+            this.renderWordList();
+            this.updateFlashcard();
+        } else {
+            alert('You must have at least one word book.');
+        }
+    }
+    
     saveUserSettings() {
         this.settings.studyMode = document.getElementById('study-mode').value;
         this.settings.difficultyFilter = document.getElementById('difficulty-filter').value;
@@ -308,28 +371,30 @@ class WordMaster {
                     const content = event.target.result;
                     const lines = content.split('\n');
                     let importedCount = 0;
+                    const currentBook = this.getCurrentBook();
                     
                     lines.forEach(line => {
                         const parts = line.split('\t');
-                        if (parts.length >= 2) {
+                        if (parts.length >= 3) {
                             const newWord = {
                                 id: Date.now() + importedCount,
                                 word: parts[0].trim(),
                                 definition: parts[1].trim(),
-                                difficulty: parts.length > 2 ? parts[2].trim().toLowerCase() : 'medium'
+                                translation: parts[2].trim(),
+                                difficulty: parts.length > 3 ? parts[3].trim().toLowerCase() : 'medium'
                             };
-                            this.words.push(newWord);
+                            currentBook.words.push(newWord);
                             importedCount++;
                         }
                     });
                     
                     if (importedCount > 0) {
-                        this.saveWords();
+                        this.saveBooks();
                         this.renderWordList();
                         this.updateFlashcard();
                         alert(`Successfully imported ${importedCount} words!`);
                     } else {
-                        alert('No valid words found in the file. Please use tab-separated format: word\tdefinition\tdifficulty');
+                        alert('No valid words found in the file. Please use tab-separated format: word\tdefinition\ttranslation\tdifficulty');
                     }
                 };
                 reader.readAsText(file);
@@ -342,7 +407,8 @@ class WordMaster {
     getNextWord() {
         // For simplicity, we'll just return the next word in the list
         // A more sophisticated algorithm would consider difficulty and review history
-        return this.words[this.currentWordIndex];
+        const words = this.getCurrentWords();
+        return words[this.currentWordIndex];
     }
     
     // Sound functionality for word pronunciation
