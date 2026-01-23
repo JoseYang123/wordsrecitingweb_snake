@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local Storage Browser Test</title>
+</head>
+<body>
+    <h1>Local Storage Browser Test</h1>
+    <button onclick="runTests()">Run Local Storage Tests</button>
+    <div id="results"></div>
+
+    <script>
+        function log(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += '<p>' + message + '</p>';
+            console.log(message);
+        }
+
+        function runTests() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            log('Starting local storage tests...');
+
+            // Test 1: Check if localStorage is available
+            if (typeof localStorage !== 'undefined') {
+                log('✓ localStorage is available');
+            } else {
+                log('✗ localStorage is not available');
+                return;
+            }
+
+            // Test 2: Set item
+            try {
+                const testData = {
+                    books: [
+                        {
+                            id: 1,
+                            name: 'Test Book',
+                            words: [
+                                { id: 1, word: 'test', definition: 'a test word', translation: '测试', difficulty: 'easy' }
+                            ]
+                        }
+                    ]
+                };
+                
+                localStorage.setItem('wordMasterBooks', JSON.stringify(testData.books));
+                log('✓ Set item successfully');
+            } catch (error) {
+                log('✗ Error setting item: ' + error.message);
+            }
+
+            // Test 3: Get item
+            try {
+                const retrievedData = localStorage.getItem('wordMasterBooks');
+                log('✓ Get item successfully');
+                log('Retrieved data: ' + retrievedData);
+            } catch (error) {
+                log('✗ Error getting item: ' + error.message);
+            }
+
+            // Test 4: Parse JSON
+            try {
+                const retrievedData = localStorage.getItem('wordMasterBooks');
+                const parsedData = JSON.parse(retrievedData);
+                log('✓ Parse JSON successfully');
+                log('Parsed data: ' + JSON.stringify(parsedData, null, 2));
+            } catch (error) {
+                log('✗ Error parsing JSON: ' + error.message);
+            }
+
+            // Test 5: Test with actual book creation scenario
+            try {
+                // Simulate initial state
+                const initialBooks = [
+                    {
+                        id: 1,
+                        name: 'Default Book',
+                        words: []
+                    }
+                ];
+                
+                log('Saving initial books...');
+                localStorage.setItem('wordMasterBooks', JSON.stringify(initialBooks));
+                
+                // Simulate creating a new book
+                const newBook = {
+                    id: Date.now(),
+                    name: 'New Test Book',
+                    words: []
+                };
+                
+                const updatedBooks = [...initialBooks, newBook];
+                log('Saving updated books...');
+                localStorage.setItem('wordMasterBooks', JSON.stringify(updatedBooks));
+                
+                // Simulate loading from storage
+                const loadedBooks = JSON.parse(localStorage.getItem('wordMasterBooks'));
+                log('✓ Book creation scenario test passed');
+                log('Loaded books: ' + JSON.stringify(loadedBooks, null, 2));
+            } catch (error) {
+                log('✗ Error in book creation scenario: ' + error.message);
+            }
+
+            // Test 6: Clear test data
+            try {
+                localStorage.removeItem('wordMasterBooks');
+                log('✓ Clear item successfully');
+            } catch (error) {
+                log('✗ Error clearing item: ' + error.message);
+            }
+
+            log('All tests completed!');
+        }
+    </script>
+</body>
+</html>

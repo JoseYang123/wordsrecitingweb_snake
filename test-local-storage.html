@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local Storage Test</title>
+</head>
+<body>
+    <h1>Local Storage Test</h1>
+    <button onclick="testLocalStorage()">Test Local Storage</button>
+    <div id="result"></div>
+
+    <script>
+        function testLocalStorage() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            try {
+                // Test 1: Set item
+                const testData = {
+                    id: 1,
+                    name: 'Test Book',
+                    words: [
+                        { id: 1, word: 'test', definition: 'a test word', translation: '测试', difficulty: 'easy' }
+                    ]
+                };
+                
+                localStorage.setItem('wordMasterBooks', JSON.stringify(testData));
+                resultDiv.innerHTML += '<p>✓ Set item successfully</p>';
+
+                // Test 2: Get item
+                const retrievedData = localStorage.getItem('wordMasterBooks');
+                resultDiv.innerHTML += '<p>✓ Get item successfully</p>';
+                resultDiv.innerHTML += `<p>Retrieved data: ${retrievedData}</p>`;
+
+                // Test 3: Parse JSON
+                const parsedData = JSON.parse(retrievedData);
+                resultDiv.innerHTML += '<p>✓ Parse JSON successfully</p>';
+                resultDiv.innerHTML += `<p>Parsed data: ${JSON.stringify(parsedData, null, 2)}</p>`;
+
+                // Test 4: Remove item
+                localStorage.removeItem('wordMasterBooks');
+                resultDiv.innerHTML += '<p>✓ Remove item successfully</p>';
+
+                // Test 5: Verify removal
+                const removedData = localStorage.getItem('wordMasterBooks');
+                resultDiv.innerHTML += `<p>✓ Verify removal: ${removedData === null}</p>`;
+
+            } catch (error) {
+                resultDiv.innerHTML += `<p>✗ Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

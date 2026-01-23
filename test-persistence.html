@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Local Storage Persistence</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        button { margin: 5px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Test Local Storage Persistence</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Create Book and Add Words</h2>
+        <button onclick="testCreateBook()">Create Test Book</button>
+        <button onclick="testAddWords()">Add Test Words</button>
+        <button onclick="testSaveToStorage()">Save to Local Storage</button>
+        <div id="test1-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Verify Persistence</h2>
+        <button onclick="testLoadFromStorage()">Load from Local Storage</button>
+        <button onclick="testClearStorage()">Clear Local Storage</button>
+        <div id="test2-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Current Local Storage State</h2>
+        <button onclick="showStorageState()">Show Storage State</button>
+        <div id="storage-state"></div>
+    </div>
+
+    <script>
+        let testBook = {
+            id: Date.now(),
+            name: 'Test Book ' + Date.now(),
+            words: []
+        };
+
+        function logResults(divId, message, isSuccess) {
+            const div = document.getElementById(divId);
+            const p = document.createElement('p');
+            p.textContent = message;
+            p.className = isSuccess ? 'success' : 'error';
+            div.appendChild(p);
+            console.log(message);
+        }
+
+        function testCreateBook() {
+            testBook = {
+                id: Date.now(),
+                name: 'Test Book ' + Date.now(),
+                words: []
+            };
+            logResults('test1-results', 'Created test book: ' + testBook.name, true);
+        }
+
+        function testAddWords() {
+            const testWords = [
+                { id: Date.now() + 1, word: 'apple', definition: 'a round fruit', translation: '苹果', difficulty: 'easy' },
+                { id: Date.now() + 2, word: 'banana', definition: 'a curved fruit', translation: '香蕉', difficulty: 'easy' },
+                { id: Date.now() + 3, word: 'computer', definition: 'an electronic device', translation: '电脑', difficulty: 'medium' }
+            ];
+            testBook.words = testWords;
+            logResults('test1-results', 'Added ' + testWords.length + ' test words', true);
+        }
+
+        function testSaveToStorage() {
+            try {
+                // Get existing books or create empty array
+                let existingBooks = [];
+                const existingBooksStr = localStorage.getItem('wordMasterBooks');
+                if (existingBooksStr) {
+                    existingBooks = JSON.parse(existingBooksStr);
+                }
+
+                // Add test book to existing books
+                const updatedBooks = [...existingBooks, testBook];
+                localStorage.setItem('wordMasterBooks', JSON.stringify(updatedBooks));
+                
+                logResults('test1-results', 'Saved ' + updatedBooks.length + ' books to local storage', true);
+                logResults('test1-results', 'Test book ID: ' + testBook.id, true);
+            } catch (error) {
+                logResults('test1-results', 'Error saving to local storage: ' + error.message, false);
+            }
+        }
+
+        function testLoadFromStorage() {
+            try {
+                const booksStr = localStorage.getItem('wordMasterBooks');
+                if (booksStr) {
+                    const books = JSON.parse(booksStr);
+                    logResults('test2-results', 'Loaded ' + books.length + ' books from local storage', true);
+                    
+                    // Find our test book
+                    const foundTestBook = books.find(book => book.id === testBook.id);
+                    if (foundTestBook) {
+                        logResults('test2-results', '✓ Test book found: ' + foundTestBook.name, true);
+                        logResults('test2-results', '✓ Test book has ' + foundTestBook.words.length + ' words', true);
+                    } else {
+                        logResults('test2-results', '✗ Test book not found', false);
+                        logResults('test2-results', 'All books: ' + JSON.stringify(books, null, 2), false);
+                    }
+                } else {
+                    logResults('test2-results', '✗ No books found in local storage', false);
+                }
+            } catch (error) {
+                logResults('test2-results', 'Error loading from local storage: ' + error.message, false);
+            }
+        }
+
+        function testClearStorage() {
+            try {
+                localStorage.removeItem('wordMasterBooks');
+                logResults('test2-results', '✓ Local storage cleared', true);
+            } catch (error) {
+                logResults('test2-results', 'Error clearing local storage: ' + error.message, false);
+            }
+        }
+
+        function showStorageState() {
+            const storageDiv = document.getElementById('storage-state');
+            storageDiv.innerHTML = '';
+            
+            try {
+                const booksStr = localStorage.getItem('wordMasterBooks');
+                if (booksStr) {
+                    const books = JSON.parse(booksStr);
+                    storageDiv.innerHTML = '<h3>Local Storage Content:</h3>';
+                    storageDiv.innerHTML += '<pre>' + JSON.stringify(books, null, 2) + '</pre>';
+                    storageDiv.innerHTML += '<p>Total books: ' + books.length + '</p>';
+                } else {
+                    storageDiv.innerHTML = '<p>Local storage is empty</p>';
+                }
+            } catch (error) {
+                storageDiv.innerHTML = '<p>Error reading local storage: ' + error.message + '</p>';
+            }
+        }
+
+        // Initial state check
+        showStorageState();
+    </script>
+</body>
+</html>

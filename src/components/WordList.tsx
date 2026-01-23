@@ -187,7 +187,7 @@ const WordList: React.FC<WordListProps> = ({
                 <select 
                   id="new-difficulty" 
                   value={newWord.difficulty} 
-                  onChange={(e) => setNewWord({ ...newWord, difficulty: e.target.value })} 
+                  onChange={(e) => setNewWord({ ...newWord, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })} 
                   required 
                 >
                   <option value="easy">Easy</option>
