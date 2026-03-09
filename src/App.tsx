@@ -4,6 +4,9 @@ import Flashcards from './components/Flashcards';
 import Practice from './components/Practice';
 import WordList from './components/WordList';
 import Settings from './components/Settings';
+import Auth from './components/Auth';
+import Leaderboard from './components/Leaderboard';
+import { AuthProvider } from './contexts/AuthContext';
 import { Word, Book, Settings as SettingsType } from './types';
 import { getJsonItem, setJsonItem } from './services/storageService';
 
@@ -60,7 +63,7 @@ const normalizeBookState = (
   };
 };
 
-function App() {
+function AppContent() {
   // Combined state for books and related indices to ensure atomic updates
   const [bookState, setBookState] = useState({
     books: [] as Book[],
@@ -373,8 +376,24 @@ function App() {
             onUpdateSettings={updateSettings}
           />
         )}
+
+        {activeSection === 'leaderboard' && (
+          <Leaderboard />
+        )}
+
+        {activeSection === 'auth' && (
+          <Auth onClose={() => setActiveSection('flashcards')} />
+        )}
       </main>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

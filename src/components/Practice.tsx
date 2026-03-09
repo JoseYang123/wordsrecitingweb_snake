@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Book, Settings } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { incrementWordsRecited } from '../services/leaderboardService';
 
 interface PracticeProps {
   currentBook: Book;
@@ -14,6 +16,7 @@ const Practice: React.FC<PracticeProps> = ({
   onNextWord,
   settings
 }) => {
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [userInput, setUserInput] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -83,6 +86,9 @@ const Practice: React.FC<PracticeProps> = ({
     if (trimmedInput === correctWord) {
       setFeedback('Correct! Well done!');
       setFeedbackType('correct');
+      if (user) {
+        incrementWordsRecited(user.uid).catch(() => {});
+      }
     } else {
       setFeedback('Incorrect. Please try again!');
       setFeedbackType('incorrect');
@@ -155,6 +161,12 @@ const Practice: React.FC<PracticeProps> = ({
             placeholder="Type the word here"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleCheckAnswer();
+              }
+            }}
           />
           <button 
             id="check-word-btn" 

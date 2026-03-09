@@ -1,5 +1,6 @@
 import React from 'react';
 import { Book } from '../types';
+import UserProfile from './UserProfile';
 
 interface HeaderProps {
   books: Book[];
@@ -22,6 +23,8 @@ const Header: React.FC<HeaderProps> = ({
   onDeleteBook,
   onNavigate
 }) => {
+
+  
   const handleCreateBook = () => {
     const bookName = prompt('Enter book name:');
     if (bookName) {
@@ -95,8 +98,21 @@ const Header: React.FC<HeaderProps> = ({
               Settings
             </a>
           </li>
+          <li>
+            <a 
+              href="#leaderboard" 
+              className={activeSection === 'leaderboard' ? 'active' : ''}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('leaderboard');
+              }}
+            >
+              Leaderboard
+            </a>
+          </li>
         </ul>
       </nav>
+      <UserProfile onNavigate={onNavigate} />
       <div className="book-management">
         <select 
           id="book-selector"

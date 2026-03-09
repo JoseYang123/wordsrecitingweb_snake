@@ -17,3 +17,19 @@ export interface Settings {
   difficultyFilter: 'all' | 'easy' | 'medium' | 'hard';
   soundEnabled: boolean;
 }
+
+export interface UserProfile {
+  uid: string;
+  displayName: string;
+  email: string;
+  wordsRecited: number;
+  createdAt: Date;
+  lastActive: Date;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  uid: string;
+  displayName: string;
+  wordsRecited: number;
+}

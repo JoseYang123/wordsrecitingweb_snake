@@ -1,0 +1,42 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { getUserStats } from '../services/leaderboardService';
+
+interface UserProfileProps {
+  onNavigate: (section: string) => void;
+}
+
+const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
+  const { user, logout } = useAuth();
+  const [wordsRecited, setWordsRecited] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      getUserStats(user.uid).then((stats) => {
+        if (stats) setWordsRecited(stats.wordsRecited);
+      }).catch(() => {});
+    }
+  }, [user]);
+
+  if (!user) {
+    return (
+      <div className="user-profile-badge">
+        <button className="sign-in-btn" onClick={() => onNavigate('auth')}>
+          Sign In
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="user-profile-badge">
+      <span className="user-display-name">{user.displayName || 'User'}</span>
+      <span className="user-words-count">📝 {wordsRecited}</span>
+      <button className="logout-btn" onClick={logout}>
+        Logout
+      </button>
+    </div>
+  );
+};
+
+export default UserProfile;
