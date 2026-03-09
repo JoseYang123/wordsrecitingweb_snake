@@ -35,12 +35,9 @@ const Flashcards: React.FC<FlashcardsProps> = ({
   if (!currentWord) {
     return (
       <div className="flashcard-container">
-        <div className="flashcard">
-          <div className="front">
-            <h2>Word</h2>
-            <p>No words available</p>
-            <p>Please add words to this book</p>
-          </div>
+        <div className="empty-list">
+          <span className="empty-list-icon">📝</span>
+          <p>No words available. Add some words to get started!</p>
         </div>
       </div>
     );
@@ -48,6 +45,9 @@ const Flashcards: React.FC<FlashcardsProps> = ({
 
   return (
     <div className="flashcard-container">
+      <div className="flashcard-counter">
+        {currentWordIndex + 1} / {currentBook.words.length}
+      </div>
       <div 
         className={`flashcard ${isFlipped ? 'flipped' : ''}`}
         onClick={handleFlip}
@@ -63,7 +63,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
                 playPronunciation(currentWord.word);
               }}
             >
-              Play Pronunciation
+              🔊 Play
             </button>
           </div>
           <div className="back">
@@ -77,20 +77,20 @@ const Flashcards: React.FC<FlashcardsProps> = ({
                 playPronunciation(currentWord.translation);
               }}
             >
-              Play Translation
+              🔊 Play Translation
             </button>
           </div>
         </div>
       </div>
       <div className="flashcard-buttons">
         <button id="prev-btn" onClick={onPrevWord}>
-          Previous
+          ← Previous
         </button>
         <button id="flip-btn" onClick={handleFlip}>
-          Flip
+          🔄 Flip
         </button>
         <button id="next-btn" onClick={onNextWord}>
-          Next
+          Next →
         </button>
       </div>
       <div className="difficulty-buttons">

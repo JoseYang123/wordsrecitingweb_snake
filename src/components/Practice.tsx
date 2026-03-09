@@ -109,6 +109,7 @@ const Practice: React.FC<PracticeProps> = ({
         <h2>Interactive Practice</h2>
         <div className="practice-steps">
           <div className="practice-step">
+            <span className="empty-list-icon">🎯</span>
             <h3>No words available</h3>
             <p>Please add words to this book before starting practice</p>
           </div>
@@ -117,9 +118,17 @@ const Practice: React.FC<PracticeProps> = ({
     );
   }
 
+  const progressWidth = `${(currentStep / 3) * 100}%`;
+
   return (
     <div className="practice-container">
       <h2>Interactive Practice</h2>
+      <div className="practice-progress">
+        <div className="practice-progress-bar">
+          <div className="practice-progress-fill" style={{ width: progressWidth }}></div>
+        </div>
+        <span className="practice-progress-label">Step {currentStep} of 3</span>
+      </div>
       <div className="practice-steps">
         {/* Step 1: Listen and Repeat */}
         <div className="practice-step" style={{ display: currentStep === 1 ? 'flex' : 'none' }}>
@@ -129,10 +138,10 @@ const Practice: React.FC<PracticeProps> = ({
             id="play-word-btn" 
             onClick={() => playPronunciation(currentWord.word)}
           >
-            Play Word
+            🔊 Play Word
           </button>
           <button id="next-to-step-2" onClick={handleNextStep}>
-            Next Step
+            Next Step →
           </button>
         </div>
 
@@ -144,10 +153,10 @@ const Practice: React.FC<PracticeProps> = ({
             id="play-translation-btn" 
             onClick={() => playPronunciation(currentWord.translation)}
           >
-            Play Translation
+            🔊 Play Translation
           </button>
           <button id="next-to-step-3" onClick={handleNextStep}>
-            Next Step
+            Next Step →
           </button>
         </div>
 
@@ -172,22 +181,24 @@ const Practice: React.FC<PracticeProps> = ({
             id="check-word-btn" 
             onClick={handleCheckAnswer}
           >
-            Check Answer
+            ✅ Check Answer
           </button>
           <button 
             id="play-letters-btn" 
             onClick={() => playWordLetters(currentWord.word)}
           >
-            Play Letters
+            🔤 Play Letters
           </button>
-          <p 
-            id="feedback" 
-            className={feedbackType === 'correct' ? 'feedback-correct' : feedbackType === 'incorrect' ? 'feedback-incorrect' : ''}
-          >
-            {feedback}
-          </p>
+          {feedback && (
+            <p 
+              id="feedback" 
+              className={feedbackType === 'correct' ? 'feedback-correct' : feedbackType === 'incorrect' ? 'feedback-incorrect' : ''}
+            >
+              {feedback}
+            </p>
+          )}
           <button id="next-word-btn" onClick={handleNextWord}>
-            Next Word
+            Next Word →
           </button>
         </div>
       </div>

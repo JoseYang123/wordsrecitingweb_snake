@@ -106,10 +106,10 @@ const WordList: React.FC<WordListProps> = ({
         <h2>Word List</h2>
         <div className="word-list-actions">
           <button id="add-word-btn" onClick={() => setIsAddModalOpen(true)}>
-            Add Word
+            + Add Word
           </button>
           <button id="import-words-btn" onClick={importWords}>
-            Import Words
+            📥 Import
           </button>
         </div>
       </div>
@@ -120,8 +120,12 @@ const WordList: React.FC<WordListProps> = ({
               <div className="word-info">
                 <h3>{word.word}</h3>
                 <p>{word.definition}</p>
-                <p className="translation">Translation: {word.translation}</p>
-                <p className="difficulty-tag">Difficulty: {word.difficulty}</p>
+                <p className="translation">{word.translation}</p>
+                <div className="difficulty-tag">
+                  <span className={`difficulty-pill ${word.difficulty}`}>
+                    {word.difficulty}
+                  </span>
+                </div>
               </div>
               <div className="word-actions">
                 <button 
@@ -142,7 +146,9 @@ const WordList: React.FC<WordListProps> = ({
         </ul>
         {currentBook.words.length === 0 && (
           <div className="empty-list">
-            <p>No words in this book. Click "Add Word" to get started!</p>
+            <span className="empty-list-icon">📖</span>
+            <p>No words in this book yet.</p>
+            <p>Click "+ Add Word" to get started!</p>
           </div>
         )}
       </div>

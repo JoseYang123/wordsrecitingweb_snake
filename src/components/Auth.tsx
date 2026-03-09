@@ -46,7 +46,10 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>{isRegister ? 'Create Account' : 'Sign In'}</h2>
+        <div className="auth-icon">
+          {isRegister ? '✨' : '👋'}
+        </div>
+        <h2>{isRegister ? 'Create Account' : 'Welcome Back'}</h2>
         {error && <p className="auth-error">{error}</p>}
         <form onSubmit={handleSubmit}>
           {isRegister && (
@@ -79,7 +82,7 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
         </form>
         <div className="auth-divider"><span>or</span></div>
         <button className="auth-google" onClick={handleGoogle} disabled={loading}>
-          Sign in with Google
+          🔑 Sign in with Google
         </button>
         <p className="auth-toggle">
           {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}

@@ -21,9 +21,9 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings }) => {
 
   return (
     <div className="settings-container">
-      <h2>Settings</h2>
+      <h2>⚙️ Settings</h2>
       <div className="settings-item">
-        <label htmlFor="study-mode">Study Mode:</label>
+        <label htmlFor="study-mode">Study Mode</label>
         <select 
           id="study-mode" 
           value={settings.studyMode}
@@ -34,7 +34,7 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings }) => {
         </select>
       </div>
       <div className="settings-item">
-        <label htmlFor="difficulty-filter">Difficulty Filter:</label>
+        <label htmlFor="difficulty-filter">Difficulty Filter</label>
         <select 
           id="difficulty-filter" 
           value={settings.difficultyFilter}
@@ -47,13 +47,16 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings }) => {
         </select>
       </div>
       <div className="settings-item">
-        <label htmlFor="sound-enabled">Sound Enabled:</label>
-        <input 
-          type="checkbox" 
-          id="sound-enabled" 
-          checked={settings.soundEnabled}
-          onChange={handleSoundEnabledChange}
-        />
+        <label htmlFor="sound-enabled">Sound Effects</label>
+        <label className="toggle-switch">
+          <input 
+            type="checkbox" 
+            id="sound-enabled" 
+            checked={settings.soundEnabled}
+            onChange={handleSoundEnabledChange}
+          />
+          <span className="toggle-slider"></span>
+        </label>
       </div>
     </div>
   );

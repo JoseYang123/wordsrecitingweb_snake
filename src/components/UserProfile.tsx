@@ -28,8 +28,11 @@ const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
     );
   }
 
+  const initials = (user.displayName || 'U').charAt(0).toUpperCase();
+
   return (
     <div className="user-profile-badge">
+      <div className="user-avatar">{initials}</div>
       <span className="user-display-name">{user.displayName || 'User'}</span>
       <span className="user-words-count">📝 {wordsRecited}</span>
       <button className="logout-btn" onClick={logout}>
