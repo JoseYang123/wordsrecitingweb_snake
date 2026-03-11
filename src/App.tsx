@@ -25,7 +25,7 @@ const defaultSettings: SettingsType = {
 const defaultBooks: Book[] = [
   {
     id: 1,
-    name: 'Default Book',
+    name: '默认词书',
     words: [
       { id: 1, word: 'apple', definition: 'a round fruit with red or green skin', translation: '苹果', difficulty: 'easy' },
       { id: 2, word: 'banana', definition: 'a long curved fruit with yellow skin', translation: '香蕉', difficulty: 'easy' },
@@ -135,7 +135,7 @@ function AppContent() {
 
   // Book management functions
   const getCurrentBook = (): Book => {
-    return bookState.books[bookState.currentBookIndex] || { id: 0, name: 'No Book', words: [] };
+    return bookState.books[bookState.currentBookIndex] || { id: 0, name: '无词书', words: [] };
   };
 
   // Helper function removed as it's no longer used directly

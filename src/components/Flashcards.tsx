@@ -37,7 +37,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
       <div className="flashcard-container">
         <div className="empty-list">
           <span className="empty-list-icon">📝</span>
-          <p>No words available. Add some words to get started!</p>
+          <p>还没有单词，请先添加一些单词吧！</p>
         </div>
       </div>
     );
@@ -54,7 +54,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
       >
         <div className="flashcard-inner">
           <div className="front">
-            <h2>Word</h2>
+            <h2>单词</h2>
             <p id="word">{currentWord.word}</p>
             <button 
               className="play-btn"
@@ -63,11 +63,11 @@ const Flashcards: React.FC<FlashcardsProps> = ({
                 playPronunciation(currentWord.word);
               }}
             >
-              🔊 Play
+              🔊 播放发音
             </button>
           </div>
           <div className="back">
-            <h2>Definition</h2>
+            <h2>释义</h2>
             <p id="definition">{currentWord.definition}</p>
             <p className="translation">{currentWord.translation}</p>
             <button 
@@ -77,20 +77,20 @@ const Flashcards: React.FC<FlashcardsProps> = ({
                 playPronunciation(currentWord.translation);
               }}
             >
-              🔊 Play Translation
+              🔊 播放翻译
             </button>
           </div>
         </div>
       </div>
       <div className="flashcard-buttons">
         <button id="prev-btn" onClick={onPrevWord}>
-          ← Previous
+          ← 上一个
         </button>
         <button id="flip-btn" onClick={handleFlip}>
-          🔄 Flip
+          🔄 翻转
         </button>
         <button id="next-btn" onClick={onNextWord}>
-          Next →
+          下一个 →
         </button>
       </div>
       <div className="difficulty-buttons">
@@ -99,21 +99,21 @@ const Flashcards: React.FC<FlashcardsProps> = ({
           className="difficulty easy"
           onClick={() => onUpdateDifficulty('easy')}
         >
-          Easy
+          简单
         </button>
         <button 
           id="medium-btn" 
           className="difficulty medium"
           onClick={() => onUpdateDifficulty('medium')}
         >
-          Medium
+          中等
         </button>
         <button 
           id="hard-btn" 
           className="difficulty hard"
           onClick={() => onUpdateDifficulty('hard')}
         >
-          Hard
+          困难
         </button>
       </div>
     </div>

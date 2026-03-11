@@ -26,21 +26,21 @@ const Header: React.FC<HeaderProps> = ({
 
   
   const handleCreateBook = () => {
-    const bookName = prompt('Enter book name:');
+    const bookName = prompt('请输入词书名称：');
     if (bookName) {
       onCreateBook(bookName);
     }
   };
 
   const handleRenameBook = () => {
-    const newName = prompt('Enter new book name:');
+    const newName = prompt('请输入新的词书名称：');
     if (newName) {
       onRenameBook(currentBookIndex, newName);
     }
   };
 
   const handleDeleteBook = () => {
-    if (confirm('Are you sure you want to delete this book?')) {
+    if (confirm('确定要删除这本词书吗？')) {
       onDeleteBook(currentBookIndex);
     }
   };
@@ -49,8 +49,7 @@ const Header: React.FC<HeaderProps> = ({
     <header>
       <div className="header-main">
         <div className="header-logo">
-          <span className="logo-icon">📚</span>
-          <h1>Enjoy Words 单词大师</h1>
+          <h1>📚 单词大师</h1>
         </div>
         <nav>
           <ul>
@@ -63,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({
                   onNavigate('flashcards');
                 }}
               >
-                Flashcards
+                闪卡
               </a>
             </li>
             <li>
@@ -75,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({
                   onNavigate('practice');
                 }}
               >
-                Practice
+                练习
               </a>
             </li>
             <li>
@@ -87,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({
                   onNavigate('word-list');
                 }}
               >
-                Word List
+                单词本
               </a>
             </li>
             <li>
@@ -99,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({
                   onNavigate('settings');
                 }}
               >
-                Settings
+                设置
               </a>
             </li>
             <li>
@@ -111,7 +110,7 @@ const Header: React.FC<HeaderProps> = ({
                   onNavigate('leaderboard');
                 }}
               >
-                Leaderboard
+                排行榜
               </a>
             </li>
           </ul>
@@ -132,13 +131,13 @@ const Header: React.FC<HeaderProps> = ({
             ))}
           </select>
           <button id="create-book-btn" onClick={handleCreateBook}>
-            + New Book
+            + 创建词书
           </button>
           <button id="rename-book-btn" onClick={handleRenameBook}>
-            ✏️ Rename
+            ✏️ 重命名
           </button>
           <button id="delete-book-btn" onClick={handleDeleteBook}>
-            🗑️ Delete
+            🗑️ 删除
           </button>
         </div>
       </div>

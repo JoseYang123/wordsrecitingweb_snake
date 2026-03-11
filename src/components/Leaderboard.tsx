@@ -24,7 +24,7 @@ const Leaderboard: React.FC = () => {
     fetchLeaderboard();
   }, []);
 
-  if (loading) return <div className="leaderboard-container"><p>Loading leaderboard...</p></div>;
+  if (loading) return <div className="leaderboard-container"><p>加载排行榜中...</p></div>;
   if (error) return <div className="leaderboard-container"><p className="auth-error">{error}</p></div>;
 
   const top3 = entries.slice(0, 3);
@@ -35,11 +35,11 @@ const Leaderboard: React.FC = () => {
 
   return (
     <div className="leaderboard-container">
-      <h2>🏆 Leaderboard</h2>
+      <h2>🏆 排行榜</h2>
       {entries.length === 0 ? (
         <div className="empty-list">
           <span className="empty-list-icon">🏅</span>
-          <p>No entries yet. Start practicing to get on the board!</p>
+          <p>还没有记录。开始练习来上榜吧！</p>
         </div>
       ) : (
         <>
@@ -52,7 +52,7 @@ const Leaderboard: React.FC = () => {
                   <div className="podium-item" key={entry.uid}>
                     <div className="podium-avatar">{initials}</div>
                     <div className="podium-name">{entry.displayName}</div>
-                    <div className="podium-score">{entry.wordsRecited} words</div>
+                    <div className="podium-score">{entry.wordsRecited} 个单词</div>
                     <div className="podium-block">
                       <span className="podium-rank">{rankEmojis[i]}</span>
                     </div>
@@ -64,9 +64,9 @@ const Leaderboard: React.FC = () => {
           <table className="leaderboard-table">
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Words Recited</th>
+                <th>排名</th>
+                <th>用户</th>
+                <th>背诵单词数</th>
               </tr>
             </thead>
             <tbody>

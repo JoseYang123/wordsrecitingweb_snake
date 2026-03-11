@@ -21,33 +21,33 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdateSettings }) => {
 
   return (
     <div className="settings-container">
-      <h2>⚙️ Settings</h2>
+      <h2>⚙️ 设置</h2>
       <div className="settings-item">
-        <label htmlFor="study-mode">Study Mode</label>
+        <label htmlFor="study-mode">学习模式</label>
         <select 
           id="study-mode" 
           value={settings.studyMode}
           onChange={handleStudyModeChange}
         >
-          <option value="flashcards">Flashcards</option>
-          <option value="quiz">Quiz</option>
+          <option value="flashcards">闪卡</option>
+          <option value="quiz">测验</option>
         </select>
       </div>
       <div className="settings-item">
-        <label htmlFor="difficulty-filter">Difficulty Filter</label>
+        <label htmlFor="difficulty-filter">难度筛选</label>
         <select 
           id="difficulty-filter" 
           value={settings.difficultyFilter}
           onChange={handleDifficultyFilterChange}
         >
-          <option value="all">All</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
+          <option value="all">全部</option>
+          <option value="easy">简单</option>
+          <option value="medium">中等</option>
+          <option value="hard">困难</option>
         </select>
       </div>
       <div className="settings-item">
-        <label htmlFor="sound-enabled">Sound Effects</label>
+        <label htmlFor="sound-enabled">声音</label>
         <label className="toggle-switch">
           <input 
             type="checkbox" 

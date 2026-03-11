@@ -39,10 +39,10 @@ const WordList: React.FC<WordListProps> = ({
   };
 
   const handleEditWord = (word: Word) => {
-    const newWordValue = prompt('Enter new word:', word.word);
-    const newDefinition = prompt('Enter new definition:', word.definition);
-    const newTranslation = prompt('Enter new translation:', word.translation);
-    const newDifficulty = prompt('Enter new difficulty (easy/medium/hard):', word.difficulty);
+    const newWordValue = prompt('请输入新单词：', word.word);
+    const newDefinition = prompt('请输入新释义：', word.definition);
+    const newTranslation = prompt('请输入新翻译：', word.translation);
+    const newDifficulty = prompt('请输入新难度（easy/medium/hard）：', word.difficulty);
     
     if (newWordValue && newDefinition && newTranslation && newDifficulty) {
       onEditWord(word.id, {
@@ -55,7 +55,7 @@ const WordList: React.FC<WordListProps> = ({
   };
 
   const handleDeleteWord = (id: number) => {
-    if (confirm('Are you sure you want to delete this word?')) {
+    if (confirm('确定要删除这个单词吗？')) {
       onDeleteWord(id);
     }
   };
@@ -89,9 +89,9 @@ const WordList: React.FC<WordListProps> = ({
           });
           
           if (importedCount > 0) {
-            alert(`Successfully imported ${importedCount} words!`);
+            alert(`成功导入 ${importedCount} 个单词！`);
           } else {
-            alert('No valid words found in the file. Please use tab-separated format: word\tdefinition\ttranslation\tdifficulty');
+            alert('未找到有效单词。请使用制表符分隔格式：单词\t释义\t翻译\t难度');
           }
         };
         reader.readAsText(file);
@@ -103,13 +103,13 @@ const WordList: React.FC<WordListProps> = ({
   return (
     <div className="word-list-container">
       <div className="word-list-header">
-        <h2>Word List</h2>
+        <h2>单词列表</h2>
         <div className="word-list-actions">
           <button id="add-word-btn" onClick={() => setIsAddModalOpen(true)}>
-            + Add Word
+            + 添加单词
           </button>
           <button id="import-words-btn" onClick={importWords}>
-            📥 Import
+            📥 导入单词
           </button>
         </div>
       </div>
@@ -132,13 +132,13 @@ const WordList: React.FC<WordListProps> = ({
                   className="edit-word-btn" 
                   onClick={() => handleEditWord(word)}
                 >
-                  Edit
+                  编辑
                 </button>
                 <button 
                   className="delete-word-btn" 
                   onClick={() => handleDeleteWord(word.id)}
                 >
-                  Delete
+                  删除
                 </button>
               </div>
             </li>
@@ -147,8 +147,8 @@ const WordList: React.FC<WordListProps> = ({
         {currentBook.words.length === 0 && (
           <div className="empty-list">
             <span className="empty-list-icon">📖</span>
-            <p>No words in this book yet.</p>
-            <p>Click "+ Add Word" to get started!</p>
+            <p>这本词书还没有单词。</p>
+            <p>点击"+ 添加单词"开始吧！</p>
           </div>
         )}
       </div>
@@ -157,10 +157,10 @@ const WordList: React.FC<WordListProps> = ({
       {isAddModalOpen && (
         <div className="modal show">
           <div className="modal-content">
-            <h3>Add New Word</h3>
+            <h3>添加新单词</h3>
             <form id="add-word-form" onSubmit={handleAddWord}>
               <div className="form-group">
-                <label htmlFor="new-word">Word:</label>
+                <label htmlFor="new-word">单词：</label>
                 <input 
                   type="text" 
                   id="new-word" 
@@ -170,7 +170,7 @@ const WordList: React.FC<WordListProps> = ({
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="new-definition">Definition:</label>
+                <label htmlFor="new-definition">释义：</label>
                 <textarea 
                   id="new-definition" 
                   value={newWord.definition} 
@@ -179,7 +179,7 @@ const WordList: React.FC<WordListProps> = ({
                 ></textarea>
               </div>
               <div className="form-group">
-                <label htmlFor="new-translation">Translation:</label>
+                <label htmlFor="new-translation">翻译：</label>
                 <input 
                   type="text" 
                   id="new-translation" 
@@ -189,16 +189,16 @@ const WordList: React.FC<WordListProps> = ({
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="new-difficulty">Difficulty:</label>
+                <label htmlFor="new-difficulty">难度：</label>
                 <select 
                   id="new-difficulty" 
                   value={newWord.difficulty} 
                   onChange={(e) => setNewWord({ ...newWord, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })} 
                   required 
                 >
-                  <option value="easy">Easy</option>
-                  <option value="medium">Medium</option>
-                  <option value="hard">Hard</option>
+                  <option value="easy">简单</option>
+                  <option value="medium">中等</option>
+                  <option value="hard">困难</option>
                 </select>
               </div>
               <div className="form-buttons">
@@ -207,9 +207,9 @@ const WordList: React.FC<WordListProps> = ({
                   id="cancel-add-word" 
                   onClick={() => setIsAddModalOpen(false)}
                 >
-                  Cancel
+                  取消
                 </button>
-                <button type="submit">Add Word</button>
+                <button type="submit">添加单词</button>
               </div>
             </form>
           </div>

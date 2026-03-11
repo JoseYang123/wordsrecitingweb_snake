@@ -84,13 +84,17 @@ const Practice: React.FC<PracticeProps> = ({
     const correctWord = currentWord.word.toLowerCase();
 
     if (trimmedInput === correctWord) {
-      setFeedback('Correct! Well done!');
+      setFeedback('回答正确！');
       setFeedbackType('correct');
       if (user) {
         incrementWordsRecited(user.uid).catch(() => {});
       }
+      // Auto-advance to next word after 1 second
+      setTimeout(() => {
+        handleNextWord();
+      }, 1000);
     } else {
-      setFeedback('Incorrect. Please try again!');
+      setFeedback('回答错误，请再试一次！');
       setFeedbackType('incorrect');
     }
   };
@@ -106,12 +110,12 @@ const Practice: React.FC<PracticeProps> = ({
   if (!currentWord) {
     return (
       <div className="practice-container">
-        <h2>Interactive Practice</h2>
+        <h2>互动练习</h2>
         <div className="practice-steps">
           <div className="practice-step">
             <span className="empty-list-icon">🎯</span>
-            <h3>No words available</h3>
-            <p>Please add words to this book before starting practice</p>
+            <h3>暂无单词</h3>
+            <p>请先在词书中添加单词再开始练习</p>
           </div>
         </div>
       </div>
@@ -122,52 +126,52 @@ const Practice: React.FC<PracticeProps> = ({
 
   return (
     <div className="practice-container">
-      <h2>Interactive Practice</h2>
+      <h2>互动练习</h2>
       <div className="practice-progress">
         <div className="practice-progress-bar">
           <div className="practice-progress-fill" style={{ width: progressWidth }}></div>
         </div>
-        <span className="practice-progress-label">Step {currentStep} of 3</span>
+        <span className="practice-progress-label">第 {currentStep} 步，共 3 步</span>
       </div>
       <div className="practice-steps">
         {/* Step 1: Listen and Repeat */}
         <div className="practice-step" style={{ display: currentStep === 1 ? 'flex' : 'none' }}>
-          <h3>Step 1: Listen and Repeat</h3>
+          <h3>第一步：听读</h3>
           <p id="practice-word">{currentWord.word}</p>
           <button 
             id="play-word-btn" 
             onClick={() => playPronunciation(currentWord.word)}
           >
-            🔊 Play Word
+            🔊 播放单词
           </button>
           <button id="next-to-step-2" onClick={handleNextStep}>
-            Next Step →
+            下一步 →
           </button>
         </div>
 
         {/* Step 2: Translation */}
         <div className="practice-step" style={{ display: currentStep === 2 ? 'flex' : 'none' }}>
-          <h3>Step 2: Translation</h3>
+          <h3>第二步：翻译</h3>
           <p id="practice-translation">{currentWord.translation}</p>
           <button 
             id="play-translation-btn" 
             onClick={() => playPronunciation(currentWord.translation)}
           >
-            🔊 Play Translation
+            🔊 播放翻译
           </button>
           <button id="next-to-step-3" onClick={handleNextStep}>
-            Next Step →
+            下一步 →
           </button>
         </div>
 
         {/* Step 3: Type the Word */}
         <div className="practice-step" style={{ display: currentStep === 3 ? 'flex' : 'none' }}>
-          <h3>Step 3: Type the Word</h3>
-          <p id="typing-hint">Type the word: {currentWord.word.charAt(0)}...</p>
+          <h3>第三步：拼写</h3>
+          <p id="typing-hint">请拼写单词：{currentWord.word.charAt(0)}...</p>
           <input 
             type="text" 
             id="word-input" 
-            placeholder="Type the word here"
+            placeholder="在此输入单词"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyDown={(e) => {
@@ -181,13 +185,13 @@ const Practice: React.FC<PracticeProps> = ({
             id="check-word-btn" 
             onClick={handleCheckAnswer}
           >
-            ✅ Check Answer
+            ✅ 检查答案
           </button>
           <button 
             id="play-letters-btn" 
             onClick={() => playWordLetters(currentWord.word)}
           >
-            🔤 Play Letters
+            🔤 播放字母
           </button>
           {feedback && (
             <p 
@@ -198,7 +202,7 @@ const Practice: React.FC<PracticeProps> = ({
             </p>
           )}
           <button id="next-word-btn" onClick={handleNextWord}>
-            Next Word →
+            下一个单词 →
           </button>
         </div>
       </div>

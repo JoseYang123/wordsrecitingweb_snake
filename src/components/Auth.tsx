@@ -1,95 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
-const Auth: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
-  const { login, register, loginWithGoogle } = useAuth();
-  const [isRegister, setIsRegister] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
+  const auth = useAuth(); // keep hook usage intact
+  void auth;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      if (isRegister) {
-        await register(email, password, displayName);
-      } else {
-        await login(email, password);
-      }
-      onClose?.();
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Authentication failed';
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogle = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await loginWithGoogle();
-      onClose?.();
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Google sign-in failed';
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
+  const handleSocialLogin = (_platform: string) => {
+    alert('即将开放，敬请期待！');
   };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <div className="auth-icon">
-          {isRegister ? '✨' : '👋'}
-        </div>
-        <h2>{isRegister ? 'Create Account' : 'Welcome Back'}</h2>
-        {error && <p className="auth-error">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          {isRegister && (
-            <input
-              type="text"
-              placeholder="Display Name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              required
-            />
-          )}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-          />
-          <button type="submit" className="auth-submit" disabled={loading}>
-            {loading ? 'Loading...' : isRegister ? 'Register' : 'Sign In'}
+        <div className="auth-icon">👋</div>
+        <h2>登录 / 注册</h2>
+        <div className="social-login-buttons">
+          <button
+            className="social-login-btn wechat-btn"
+            onClick={() => handleSocialLogin('wechat')}
+          >
+            <span className="social-icon">💬</span>
+            微信登录
           </button>
-        </form>
-        <div className="auth-divider"><span>or</span></div>
-        <button className="auth-google" onClick={handleGoogle} disabled={loading}>
-          🔑 Sign in with Google
-        </button>
-        <p className="auth-toggle">
-          {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
-          <a href="#" onClick={(e) => { e.preventDefault(); setIsRegister(!isRegister); setError(''); }}>
-            {isRegister ? 'Sign In' : 'Register'}
-          </a>
-        </p>
+          <button
+            className="social-login-btn qq-btn"
+            onClick={() => handleSocialLogin('qq')}
+          >
+            <span className="social-icon">🐧</span>
+            QQ登录
+          </button>
+          <button
+            className="social-login-btn alipay-btn"
+            onClick={() => handleSocialLogin('alipay')}
+          >
+            <span className="social-icon">💰</span>
+            支付宝登录
+          </button>
+        </div>
       </div>
     </div>
   );

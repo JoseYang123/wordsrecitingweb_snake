@@ -22,7 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
     return (
       <div className="user-profile-badge">
         <button className="sign-in-btn" onClick={() => onNavigate('auth')}>
-          Sign In
+          登录
         </button>
       </div>
     );
@@ -33,10 +33,10 @@ const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
   return (
     <div className="user-profile-badge">
       <div className="user-avatar">{initials}</div>
-      <span className="user-display-name">{user.displayName || 'User'}</span>
+      <span className="user-display-name">{user.displayName || '用户'}</span>
       <span className="user-words-count">📝 {wordsRecited}</span>
       <button className="logout-btn" onClick={logout}>
-        Logout
+        退出
       </button>
     </div>
   );
