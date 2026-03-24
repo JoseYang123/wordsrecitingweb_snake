@@ -22,7 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
     return (
       <div className="user-profile-badge">
         <button className="sign-in-btn" onClick={() => onNavigate('auth')}>
-          登录
+          登录/注册
         </button>
       </div>
     );

@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({
     <header>
       <div className="header-main">
         <div className="header-logo">
-          <h1>📚 单词大师</h1>
+          <h1>Words Master</h1>
         </div>
         <nav>
           <ul>

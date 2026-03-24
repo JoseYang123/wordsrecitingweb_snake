@@ -93,7 +93,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
           下一个 →
         </button>
       </div>
-      <div className="difficulty-buttons">
+  {/*     <div className="difficulty-buttons">
         <button 
           id="easy-btn" 
           className="difficulty easy"
@@ -115,7 +115,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
         >
           困难
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
