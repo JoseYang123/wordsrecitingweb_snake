@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./slices/userSlice";
+import userInfoReducer from "./slices/userInfoSlice"; // 如果你有另一个用户信息的slice，可以在这里导入
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
@@ -10,7 +10,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  userInfo: userInfoReducer, // 如果你有另一个用户信息的slice，可以在这里添加
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

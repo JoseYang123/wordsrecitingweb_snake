@@ -113,7 +113,7 @@ export const loginWithEmail = async (email: string, password: string) => {
   //check if there is @in email if there is , this is email login, otherwise it is account login
   //username login
   //if it is account loigin we directly use the account login api
-//backend will handle if it is email or account login;
+  //backend will handle if it is email or account login;
   const envUrl =
     import.meta.env.VITE_API_URL ||
     "http://Enjoywords-env.eba-hwqp5zra.ap-southeast-1.elasticbeanstalk.com";
@@ -123,27 +123,28 @@ export const loginWithEmail = async (email: string, password: string) => {
       account: email,
       password: password,
     });
-    console.log("后端登录接口调用成功，响应数据：", response.data);
+    console.log("后端登录接口调用成功，backend响应数据：", response.data);
 
-  const convertLevel = parseFloat(response.data.user.level);
-      const convertCoins = parseInt(response.data.user.coins);
-      const convertSeason = parseInt(response.data.user.season);
-          const userdata = {
-        account: response.data.user.account,
-        password: response.data.user.password,
-        portpath: response.data.user.portpath,
-        username: response.data.user.username,
-        job: response.data.user.job,
+    const convertLevel = parseFloat(response.data.user.level);
+    const convertCoins = parseInt(response.data.user.coins);
+    const convertSeason = parseInt(response.data.user.season);
+    const userdata = {
+      account: response.data.user.account,
+      password: response.data.user.password,
+      portpath: response.data.user.portpath,
+      username: response.data.user.username,
+      job: response.data.user.job,
+      //level from data base is decimal(20,3)
+      level: convertLevel, //this can only be used for login now;
+      server: response.data.user.server,
+      coins: convertCoins,
+      season: convertSeason,
+      isLoggedIn: true,
+      token: response.data.token,
+    };
+    //  console.log("转换后的用户数据：", userdata);
 
-        //level from data base is decimal(20,3)
-        level: convertLevel, //this can only be used for login now;
-        server: response.data.user.server,
-        coins: convertCoins,
-        season: convertSeason,
-      };
-
-
-    return response.data;
+    return { userdata, message: response.data.message };
   } catch (error: any) {
     if (error.response && error.response.data) {
       throw new Error(error.response.data.message || "登录失败");

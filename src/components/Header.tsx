@@ -1,7 +1,8 @@
-import React from 'react';
-import { Book } from '../types';
-import UserProfile from './UserProfile';
-
+import React from "react";
+import { Book } from "../types";
+import UserProfile from "./UserProfile";
+import { useSelector, useDispatch } from "react-redux";
+import { resetUser } from "../store/slices/userInfoSlice";
 interface HeaderProps {
   books: Book[];
   currentBookIndex: number;
@@ -21,26 +22,36 @@ const Header: React.FC<HeaderProps> = ({
   onCreateBook,
   onRenameBook,
   onDeleteBook,
-  onNavigate
+  onNavigate,
 }) => {
+  const dispatch = useDispatch();
+  //reset user info
+  //dispatch(resetUser());
 
-  
+  // const user = useSelector((state: any) => state.userInfo);
+  const user = useSelector((state: any) => {
+    console.log("🌍 whole state:", state);
+    return state.userInfo;
+  });
+
+  console.log("UserProfile组件获取的用户数据：", user);
+
   const handleCreateBook = () => {
-    const bookName = prompt('请输入词书名称：');
+    const bookName = prompt("请输入词书名称：");
     if (bookName) {
       onCreateBook(bookName);
     }
   };
 
   const handleRenameBook = () => {
-    const newName = prompt('请输入新的词书名称：');
+    const newName = prompt("请输入新的词书名称：");
     if (newName) {
       onRenameBook(currentBookIndex, newName);
     }
   };
 
   const handleDeleteBook = () => {
-    if (confirm('确定要删除这本词书吗？')) {
+    if (confirm("确定要删除这本词书吗？")) {
       onDeleteBook(currentBookIndex);
     }
   };
@@ -54,63 +65,63 @@ const Header: React.FC<HeaderProps> = ({
         <nav>
           <ul>
             <li>
-              <a 
-                href="#flashcards" 
-                className={activeSection === 'flashcards' ? 'active' : ''}
+              <a
+                href="#flashcards"
+                className={activeSection === "flashcards" ? "active" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('flashcards');
+                  onNavigate("flashcards");
                 }}
               >
                 闪卡
               </a>
             </li>
             <li>
-              <a 
-                href="#practice" 
-                className={activeSection === 'practice' ? 'active' : ''}
+              <a
+                href="#practice"
+                className={activeSection === "practice" ? "active" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('practice');
+                  onNavigate("practice");
                 }}
               >
                 练习
               </a>
             </li>
             <li>
-              <a 
-                href="#word-list" 
-                className={activeSection === 'word-list' ? 'active' : ''}
+              <a
+                href="#word-list"
+                className={activeSection === "word-list" ? "active" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('word-list');
+                  onNavigate("word-list");
                 }}
               >
                 单词本
               </a>
             </li>
             <li>
-              <a 
-                href="#settings" 
-                className={activeSection === 'settings' ? 'active' : ''}
+              <a
+                href="#settings"
+                className={activeSection === "settings" ? "active" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('settings');
+                  onNavigate("settings");
                 }}
               >
                 设置
               </a>
             </li>
             <li>
-              <a 
-                href="#leaderboard" 
-                className={activeSection === 'leaderboard' ? 'active' : ''}
+              <a
+                href="#leaderboard"
+                className={activeSection === "leaderboard" ? "active" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('leaderboard');
+                  onNavigate("leaderboard");
                 }}
               >
-                排行榜
+                排行
               </a>
             </li>
           </ul>
@@ -119,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({
       </div>
       <div className="book-bar">
         <div className="book-management">
-          <select 
+          <select
             id="book-selector"
             value={currentBookIndex}
             onChange={(e) => onSelectBook(parseInt(e.target.value))}

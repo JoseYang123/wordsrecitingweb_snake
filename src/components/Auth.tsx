@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { registerWithEmail, loginWithEmail } from "../services/authService";
 import { useDispatch } from "react-redux";
-import { login as loginRedux } from "../userSlice";
+import { setUser } from "../store/slices/userInfoSlice";
 
 const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
-
   const auth = useAuth(); // keep hook usage intact
   void auth;
   const dispatch = useDispatch();
@@ -34,17 +33,41 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
     setLoading(true);
     setError("");
     try {
-
       const result = await loginWithEmail(email, password);
-      console.log("登录成功，用户信息：in Auith.tsx", result);
+      //console.log("登录成功，用户信息：in Auith.tsx", result);
 
       // 假设用户名和服务器可以通过 email 和 server 变量获得
+
+      console.log(
+        "before setUser in Auth.tsx, result.userdata:",
+        result.userdata,
+      );
+      // dispatch(setUser(result.userdata));
+
+  console.log("------登录成功，准备设置用户信息：-----", {
+    account: result.userdata.account || "",
+    username: result.userdata.username || "",
+    password:result.userdata.password || "",
+    token: result.userdata.token || "",
+    level: Number(result.userdata.level) || 0,
+    coins: Number(result.userdata.coins) || 0,
+    season: Number(result.userdata.season) || 0,
+    server: result.userdata.server || "",
+    isLoggedIn: true,
+  });
+
       dispatch(
-        loginRedux({
-          username: email.split("@")[0],
-          email,
-          server,
-        })
+        setUser({
+          account: result.userdata.account || "",
+          username: result.userdata.username || "",
+          password:result.userdata.password || "",
+          token: result.userdata.token || "",
+          level: Number(result.userdata.level) || 0,
+          coins: Number(result.userdata.coins) || 0,
+          season: Number(result.userdata.season) || 0,
+          server: result.userdata.server || "",
+          isLoggedIn: true,
+        }),
       );
       setShowModal(null);
       setEmail("");
@@ -73,7 +96,7 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
     }
     // 手机号和验证码可选，允许为空
     try {
-      await registerWithEmail(
+      const result = await registerWithEmail(
         email,
         password,
         confirmPassword || undefined,
@@ -82,6 +105,23 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
         telephoneNum || undefined,
         inviteCode || undefined,
       );
+
+      console.log("注册成功，用户信息：in Auth.tsx", result);
+      /*     dispatch(
+        setUser({
+          account: result.userdata.user?.account || "",
+          username: result.userdata.user?.username || "",
+          email: result.userdata.user?.email || "",
+          password: "",
+          token: result.userdata.token || "",
+          level: Number(result.userdata.user?.level) || 0,
+          coins: Number(result.userdata.user?.coins) || 0,
+          season: Number(result.userdata.user?.season) || 0,
+          server: result.userdata.user?.server || "",
+          isLoggedIn: true,
+        }),
+      );
+ */
       setShowModal(null);
       setEmail("");
       setPassword("");
@@ -257,7 +297,9 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
                     border: "1px solid #ddd",
                   }}
                 >
-                  <option value="" disabled>请选择服务器</option>
+                  <option value="" disabled>
+                    请选择服务器
+                  </option>
                   <option value="Earth">Earth</option>
                   <option value="Moon">Moon</option>
                 </select>
@@ -287,7 +329,6 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
                       border: "1px solid #ddd",
                     }}
                   />
-                
                 </div>
                 <input
                   type="email"
@@ -378,7 +419,7 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
                     border: "1px solid #ddd",
                   }}
                 />
-               {/*  <select
+                {/*  <select
                   value={server}
                   onChange={(e) => setServer(e.target.value)}
                   required
