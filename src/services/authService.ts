@@ -115,7 +115,7 @@ export const loginWithEmail = async (email: string, password: string) => {
   //backend will handle if it is email or account login;
   const envUrl =
     import.meta.env.VITE_API_URL ||
-    "http://Enjoywords-env.eba-hwqp5zra.ap-southeast-1.elasticbeanstalk.com";
+    "https://Enjoywords-env.eba-hwqp5zra.ap-southeast-1.elasticbeanstalk.com";
   const loginUrl = `${envUrl}/login`;
   try {
     const response = await axios.post(loginUrl, {
