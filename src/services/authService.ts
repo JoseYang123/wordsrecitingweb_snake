@@ -1,6 +1,5 @@
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   onAuthStateChanged,

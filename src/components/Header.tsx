@@ -1,8 +1,7 @@
 import React from "react";
 import { Book } from "../types";
 import UserProfile from "./UserProfile";
-import { useSelector, useDispatch } from "react-redux";
-import { resetUser } from "../store/slices/userInfoSlice";
+import { useSelector} from "react-redux";
 interface HeaderProps {
   books: Book[];
   currentBookIndex: number;
@@ -24,7 +23,6 @@ const Header: React.FC<HeaderProps> = ({
   onDeleteBook,
   onNavigate,
 }) => {
-  const dispatch = useDispatch();
   //reset user info
   //dispatch(resetUser());
 

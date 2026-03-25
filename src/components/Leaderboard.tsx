@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { getLeaderboard } from '../services/leaderboardService';
-import { LeaderboardEntry } from '../types';
+import React, { useState, useEffect } from "react";
+import { getLeaderboard } from "../services/leaderboardService";
+import { LeaderboardEntry } from "../types";
 
 const Leaderboard: React.FC = () => {
-  const { user } = useAuth();
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -15,7 +13,8 @@ const Leaderboard: React.FC = () => {
         const data = await getLeaderboard();
         setEntries(data);
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'Failed to load leaderboard';
+        const message =
+          err instanceof Error ? err.message : "Failed to load leaderboard";
         setError(message);
       } finally {
         setLoading(false);
@@ -24,11 +23,21 @@ const Leaderboard: React.FC = () => {
     fetchLeaderboard();
   }, []);
 
-  if (loading) return <div className="leaderboard-container"><p>加载排行榜中...</p></div>;
-  if (error) return <div className="leaderboard-container"><p className="auth-error">{error}</p></div>;
+  if (loading)
+    return (
+      <div className="leaderboard-container">
+        <p>加载排行榜中...</p>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="leaderboard-container">
+        <p className="auth-error">{error}</p>
+      </div>
+    );
 
   const top3 = entries.slice(0, 3);
-  const rest = entries.slice(3);
+  
 
   // Reorder for podium: 2nd, 1st, 3rd
   const podiumOrder = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : [];
@@ -46,13 +55,17 @@ const Leaderboard: React.FC = () => {
           {podiumOrder.length === 3 && (
             <div className="podium">
               {podiumOrder.map((entry, i) => {
-                const rankEmojis = ['🥈', '🥇', '🥉'];
-                const initials = (entry.displayName || '?').charAt(0).toUpperCase();
+                const rankEmojis = ["🥈", "🥇", "🥉"];
+                const initials = (entry.displayName || "?")
+                  .charAt(0)
+                  .toUpperCase();
                 return (
                   <div className="podium-item" key={entry.uid}>
                     <div className="podium-avatar">{initials}</div>
                     <div className="podium-name">{entry.displayName}</div>
-                    <div className="podium-score">{entry.wordsRecited} 个单词</div>
+                    <div className="podium-score">
+                      {entry.wordsRecited} 个单词
+                    </div>
                     <div className="podium-block">
                       <span className="podium-rank">{rankEmojis[i]}</span>
                     </div>
@@ -69,20 +82,7 @@ const Leaderboard: React.FC = () => {
                 <th>背诵单词数</th>
               </tr>
             </thead>
-            <tbody>
-              {(podiumOrder.length < 3 ? entries : rest).map((entry) => (
-                <tr
-                  key={entry.uid}
-                  className={user?.uid === entry.uid ? 'current-user-row' : ''}
-                >
-                  <td className="rank-cell">
-                    {entry.rank <= 3 ? ['🥇', '🥈', '🥉'][entry.rank - 1] : entry.rank}
-                  </td>
-                  <td>{entry.displayName}</td>
-                  <td>{entry.wordsRecited}</td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody></tbody>
           </table>
         </>
       )}

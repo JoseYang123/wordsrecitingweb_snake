@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetUser } from "../store/slices/userInfoSlice";
-import { getUserStats } from "../services/leaderboardService";
+
 
 interface UserProfileProps {
   onNavigate: (section: string) => void;
@@ -14,8 +14,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ onNavigate }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // TODO: add logout logic if needed
-  const [wordsRecited, setWordsRecited] = useState(0);
-
   // useEffect(() => {
   //   if (user) {
   //     getUserStats(user.uid).then((stats) => {

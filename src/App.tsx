@@ -6,7 +6,7 @@ import WordList from './components/WordList';
 import Settings from './components/Settings';
 import Auth from './components/Auth';
 import Leaderboard from './components/Leaderboard';
-import { AuthProvider } from './contexts/AuthContext';
+
 import { Word, Book, Settings as SettingsType } from './types';
 import { getJsonItem, setJsonItem } from './services/storageService';
 
@@ -391,9 +391,9 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
+   
       <AppContent />
-    </AuthProvider>
+   
   );
 }
 

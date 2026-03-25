@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Book, Settings } from '../types';
-import { useAuth } from '../contexts/AuthContext';
-import { incrementWordsRecited } from '../services/leaderboardService';
+import React, { useState, useEffect } from "react";
+import { Book, Settings } from "../types";
+
 
 interface PracticeProps {
   currentBook: Book;
@@ -14,21 +13,22 @@ const Practice: React.FC<PracticeProps> = ({
   currentBook,
   currentWordIndex,
   onNextWord,
-  settings
+  settings,
 }) => {
-  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
-  const [userInput, setUserInput] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [feedbackType, setFeedbackType] = useState<'correct' | 'incorrect' | ''>('');
+  const [userInput, setUserInput] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState<
+    "correct" | "incorrect" | ""
+  >("");
   const currentWord = currentBook.words[currentWordIndex];
 
   // Reset state when current word changes
   useEffect(() => {
     setCurrentStep(1);
-    setUserInput('');
-    setFeedback('');
-    setFeedbackType('');
+    setUserInput("");
+    setFeedback("");
+    setFeedbackType("");
   }, [currentWordIndex]);
 
   // Auto-play audio when step changes
@@ -42,13 +42,9 @@ const Practice: React.FC<PracticeProps> = ({
         }
       }, 300);
     }
-    if(currentStep===3)
-    {
-        
-        playWordLetters(currentWord.word);
+    if (currentStep === 3) {
+      playWordLetters(currentWord.word);
     }
-
- 
   }, [currentStep, currentWord, settings.soundEnabled]);
 
   const playPronunciation = (text: string) => {
@@ -60,7 +56,7 @@ const Practice: React.FC<PracticeProps> = ({
 
   const playWordLetters = (word: string) => {
     if (settings.soundEnabled) {
-      const letters = word.split('');
+      const letters = word.split("");
       letters.forEach((letter, index) => {
         setTimeout(() => {
           const utterance = new SpeechSynthesisUtterance(letter);
@@ -71,7 +67,6 @@ const Practice: React.FC<PracticeProps> = ({
   };
 
   const handleNextStep = () => {
- 
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
@@ -84,26 +79,26 @@ const Practice: React.FC<PracticeProps> = ({
     const correctWord = currentWord.word.toLowerCase();
 
     if (trimmedInput === correctWord) {
-      setFeedback('回答正确！');
-      setFeedbackType('correct');
-      if (user) {
-        incrementWordsRecited(user.uid).catch(() => {});
-      }
+      setFeedback("回答正确！");
+      setFeedbackType("correct");
+
+      // incrementWordsRecited(user.uid).catch(() => {});
+
       // Auto-advance to next word after 1 second
       setTimeout(() => {
         handleNextWord();
       }, 1000);
     } else {
-      setFeedback('回答错误，请再试一次！');
-      setFeedbackType('incorrect');
+      setFeedback("回答错误，请再试一次！");
+      setFeedbackType("incorrect");
     }
   };
 
   const handleNextWord = () => {
     setCurrentStep(1);
-    setUserInput('');
-    setFeedback('');
-    setFeedbackType('');
+    setUserInput("");
+    setFeedback("");
+    setFeedbackType("");
     onNextWord();
   };
 
@@ -129,17 +124,25 @@ const Practice: React.FC<PracticeProps> = ({
       <h2>互动练习</h2>
       <div className="practice-progress">
         <div className="practice-progress-bar">
-          <div className="practice-progress-fill" style={{ width: progressWidth }}></div>
+          <div
+            className="practice-progress-fill"
+            style={{ width: progressWidth }}
+          ></div>
         </div>
-        <span className="practice-progress-label">第 {currentStep} 步，共 3 步</span>
+        <span className="practice-progress-label">
+          第 {currentStep} 步，共 3 步
+        </span>
       </div>
       <div className="practice-steps">
         {/* Step 1: Listen and Repeat */}
-        <div className="practice-step" style={{ display: currentStep === 1 ? 'flex' : 'none' }}>
+        <div
+          className="practice-step"
+          style={{ display: currentStep === 1 ? "flex" : "none" }}
+        >
           <h3>第一步：听读</h3>
           <p id="practice-word">{currentWord.word}</p>
-          <button 
-            id="play-word-btn" 
+          <button
+            id="play-word-btn"
             onClick={() => playPronunciation(currentWord.word)}
           >
             🔊 播放单词
@@ -150,11 +153,14 @@ const Practice: React.FC<PracticeProps> = ({
         </div>
 
         {/* Step 2: Translation */}
-        <div className="practice-step" style={{ display: currentStep === 2 ? 'flex' : 'none' }}>
+        <div
+          className="practice-step"
+          style={{ display: currentStep === 2 ? "flex" : "none" }}
+        >
           <h3>第二步：翻译</h3>
           <p id="practice-translation">{currentWord.translation}</p>
-          <button 
-            id="play-translation-btn" 
+          <button
+            id="play-translation-btn"
             onClick={() => playPronunciation(currentWord.translation)}
           >
             🔊 播放翻译
@@ -165,38 +171,44 @@ const Practice: React.FC<PracticeProps> = ({
         </div>
 
         {/* Step 3: Type the Word */}
-        <div className="practice-step" style={{ display: currentStep === 3 ? 'flex' : 'none' }}>
+        <div
+          className="practice-step"
+          style={{ display: currentStep === 3 ? "flex" : "none" }}
+        >
           <h3>第三步：拼写</h3>
           <p id="typing-hint">请拼写单词：{currentWord.word.charAt(0)}...</p>
-          <input 
-            type="text" 
-            id="word-input" 
+          <input
+            type="text"
+            id="word-input"
             placeholder="在此输入单词"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 e.preventDefault();
                 handleCheckAnswer();
               }
             }}
           />
-          <button 
-            id="check-word-btn" 
-            onClick={handleCheckAnswer}
-          >
+          <button id="check-word-btn" onClick={handleCheckAnswer}>
             ✅ 检查答案
           </button>
-          <button 
-            id="play-letters-btn" 
+          <button
+            id="play-letters-btn"
             onClick={() => playWordLetters(currentWord.word)}
           >
             🔤 播放字母
           </button>
           {feedback && (
-            <p 
-              id="feedback" 
-              className={feedbackType === 'correct' ? 'feedback-correct' : feedbackType === 'incorrect' ? 'feedback-incorrect' : ''}
+            <p
+              id="feedback"
+              className={
+                feedbackType === "correct"
+                  ? "feedback-correct"
+                  : feedbackType === "incorrect"
+                    ? "feedback-incorrect"
+                    : ""
+              }
             >
               {feedback}
             </p>

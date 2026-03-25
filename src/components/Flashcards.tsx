@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Book, Settings } from '../types';
+import React, { useState } from "react";
+import { Book, Settings } from "../types";
 
 interface FlashcardsProps {
   currentBook: Book;
   currentWordIndex: number;
   onNextWord: () => void;
   onPrevWord: () => void;
-  onUpdateDifficulty: (difficulty: 'easy' | 'medium' | 'hard') => void;
+  onUpdateDifficulty: (difficulty: "easy" | "medium" | "hard") => void;
   settings: Settings;
 }
 
@@ -15,8 +15,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
   currentWordIndex,
   onNextWord,
   onPrevWord,
-  onUpdateDifficulty,
-  settings
+  settings,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const currentWord = currentBook.words[currentWordIndex];
@@ -48,15 +47,15 @@ const Flashcards: React.FC<FlashcardsProps> = ({
       <div className="flashcard-counter">
         {currentWordIndex + 1} / {currentBook.words.length}
       </div>
-      <div 
-        className={`flashcard ${isFlipped ? 'flipped' : ''}`}
+      <div
+        className={`flashcard ${isFlipped ? "flipped" : ""}`}
         onClick={handleFlip}
       >
         <div className="flashcard-inner">
           <div className="front">
             <h2>单词</h2>
             <p id="word">{currentWord.word}</p>
-            <button 
+            <button
               className="play-btn"
               onClick={(e) => {
                 e.stopPropagation();
@@ -70,7 +69,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
             <h2>释义</h2>
             <p id="definition">{currentWord.definition}</p>
             <p className="translation">{currentWord.translation}</p>
-            <button 
+            <button
               className="play-btn"
               onClick={(e) => {
                 e.stopPropagation();
@@ -93,7 +92,7 @@ const Flashcards: React.FC<FlashcardsProps> = ({
           下一个 →
         </button>
       </div>
-  {/*     <div className="difficulty-buttons">
+      {/*     <div className="difficulty-buttons">
         <button 
           id="easy-btn" 
           className="difficulty easy"

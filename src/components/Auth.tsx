@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import { registerWithEmail, loginWithEmail } from "../services/authService";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/userInfoSlice";
 
 const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
-  const auth = useAuth(); // keep hook usage intact
-  void auth;
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState<"login" | "register" | null>(null);
@@ -15,11 +12,11 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
   const [displayName, setDisplayName] = useState("");
   const [server, setServer] = useState("");
   const [telephoneNum, setTelephoneNum] = useState("");
-  const [verifyCode, setVerifyCode] = useState("");
-  const [verifyCodeInput, setVerifyCodeInput] = useState("");
+ // const [verifyCode, setVerifyCode] = useState("");
+ // const [verifyCodeInput, setVerifyCodeInput] = useState("");
   const [inviteCode, setInviteCode] = useState("");
-  const [verifyCodeSent, setVerifyCodeSent] = useState(false);
-  const [verifyCodeTimer, setVerifyCodeTimer] = useState(0);
+  //const [verifyCodeSent, setVerifyCodeSent] = useState(false);
+  //const [verifyCodeTimer, setVerifyCodeTimer] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -138,7 +135,7 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
   };
 
   // 发送验证码
-  const handleSendVerifyCode = async () => {
+/*   const handleSendVerifyCode = async () => {
     if (!telephoneNum) {
       setError("请输入手机号");
       return;
@@ -176,7 +173,7 @@ const Auth: React.FC<{ onClose?: () => void }> = ({ onClose: _onClose }) => {
       setLoading(false);
     }
   };
-
+ */
   return (
     <div style={{ position: "relative" }}>
       <div
